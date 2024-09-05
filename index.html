@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <h2>Memory Game</h2>
+        <section class="game-box">
+
+        </section>
+        <p class="attempt">Attempts Made : 0</p>
+        <button onclick="window.location.reload()">Reset Game</button>
+    </main>
+    <script>
+        const emojiArray = ["😊", "😊", "😂", "😂", "🛺", "🛺", "😍", "😍", "🎈", "🎈", "🍕", "🍕", "🚗", "🚗", "🚀", "🚀"
+            , "🤑", "🤑", "😡", "😡"]
+        const shuffledArray = emojiArray.sort(() => (Math.random() > .5) ? 2 : -1);
+        const gameBox = document.querySelector('.game-box');
+        const attempt = document.querySelector(".attempt");
+        let count = 0;
+        for (let i = 0; i < shuffledArray.length; i++) {
+            const emojiBox = document.createElement('div');
+            gameBox.appendChild(emojiBox);
+            emojiBox.className = "item";
+            emojiBox.innerHTML = shuffledArray[i];
+
+            emojiBox.onclick = function () {
+                count += 1;
+                console.log(count);
+                attempt.innerHTML = `Attempts Made : ${count}`
+                emojiBox.classList.add("rotate-box");
+                setTimeout(() => {
+                    if (document.querySelectorAll('.rotate-box').length > 1) {
+                        if (document.querySelectorAll('.rotate-box')[0].innerHTML == document.querySelectorAll('.rotate-box')[1].innerHTML) {
+                            document.querySelectorAll('.rotate-box')[0].classList.add('box-match');
+                            document.querySelectorAll('.rotate-box')[1].classList.add('box-match');
+                            document.querySelectorAll('.rotate-box')[1].classList.remove('rotate-box');
+                            document.querySelectorAll('.rotate-box')[0].classList.remove('rotate-box');
+                            if (document.querySelectorAll('.box-match').length == emojiArray.length) {
+                                alert("You won the game")
+                                window.location.reload();
+                            }
+                        } else {
+                            document.querySelectorAll('.rotate-box')[1].classList.remove('rotate-box');
+                            document.querySelectorAll('.rotate-box')[0].classList.remove('rotate-box');
+                        }
+                    }
+                }, 500)
+            }
+        }
+    </script>
+</body>
+
+</html>
